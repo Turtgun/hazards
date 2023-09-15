@@ -6,23 +6,21 @@ Here are some step by step instructions on how to install and use pros with all 
 
 1. Install [VSCode](https://code.visualstudio.com/download)
 2. Install [git](https://git-scm.com/downloads), don't forget to add git to the PATH in the checkbox (selecting all users is preferable.)
-3. Install [python (latest version)](https://www.python.org/downloads/), also dont forget to add it to your PATH (selecting all users is preferable)
-4. Install [mingw](https://sourceforge.net/projects/mingw/) (selecting all users is preferable)
-5. Download the necessary extensions for making a robotics project in VSCode:
+3. Download the necessary extensions for making a robotics project in VSCode:
 
     ![PROS being dowloaded through VSCode](e.png)
 
     ![clangd being dowloaded through VSCode](a.png)
 
-6. Install the PROS CLI AND toolchain
+4. Install the PROS CLI AND toolchain
 
     ![Install PROS prompt](sports.png)
 
-7. Verify PROS is installed (under the PROS tab in your VSCode)
+5. Verify PROS is installed (under the PROS tab in your VSCode)
 
     ![Verify PROS Install](it's.png)
 
-8. Create a New Project
+6. Create a New Project
 
     ![Create Project button](in.png)
 
@@ -30,5 +28,11 @@ Here are some step by step instructions on how to install and use pros with all 
     - Select v5 for the PROS library
     - Select the latest version for the PROS version
 
-9. 
-10. Publish to [github]() (<-- click here if you don't know that much about git)
+7. Publish to github
+8. Clone this repository and use the tools provided to go fast
+
+## The AAAAAAAAAAAAAAAAAAAAA method (School computers)
+
+1. Install VSCode through company portal
+2. Install git through company portal
+3. 
