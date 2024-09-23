@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../systems/DriveTrain.hpp"
-#include "../../include/display/lvgl.h"
+#include "../../include/liblvgl/lvgl.h"
 #include "Vector2.hpp"
 #include <string>
 

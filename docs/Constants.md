@@ -15,7 +15,7 @@ static const double radToDeg = 180/pi;
 
 ## Ports
 
-Ports are placed in constants so that you can access them from wherever you need that port and dont have to change the number for everyfile you have that port being used. The port numbers are on the brain and connect to the system in question. You'll 100% be changing these.
+Ports are placed in constants so that you can access them from wherever you need that port and don't have to change the number for every file you have that port being used. The port numbers are on the brain and connect to the system in question. You'll 100% be changing these.
 
 ```cpp
 static constexpr unsigned char fl_p = 10; // Port of Front Left motor
