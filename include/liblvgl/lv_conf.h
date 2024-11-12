@@ -236,7 +236,6 @@ typedef void * lv_fs_drv_user_data_t;
 #if USE_LV_IMG != 0
 #  define LV_IMG_CF_INDEXED 1
 #  define LV_IMG_CF_ALPHA 1
-#  define LV_USE_IMG
 #endif
 
 /* Default image cache size. Image caching keeps the images opened.
