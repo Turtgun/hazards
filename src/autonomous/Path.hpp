@@ -47,6 +47,8 @@ class Path {
                 sPoints.push_back(getPoint(i));
             }
             points = sPoints;
+
+            distances.clear();
         }
 
         void loadHeadings() {
@@ -57,7 +59,7 @@ class Path {
 
         void cutLoadSegments() {
             const double angleThreshold = 0.0523599; // 3 degrees in radians
-            int startIndex, x = 0;
+            int startIndex = 0, x = 0;
 
             while (startIndex < headings.size() - 1) {
                 Segment currentSegment;

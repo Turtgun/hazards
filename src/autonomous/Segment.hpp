@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Vector2.hpp"
-#include <cstddef>
 #include <vector>
 struct Segment {
     std::vector<Vector2> points;
@@ -12,16 +11,12 @@ struct Segment {
         int index = 0;
         for (int i = 1; i < points.size(); i++) {
             double dist = center.distanceTo(points[i]);
-            if (min>=dist) {
+            if (dist<=min) {
                 index = i;
                 min = dist;
             }
         }
-
-        if (min > radius) {
-            return NULL;
-        }
-
+        index = (index+1 < points.size()) ? index+1 : index;
         return points[index];
     }
 
@@ -36,6 +31,6 @@ struct Segment {
     }
 
     bool checkIfNearEnd(Vector2 position, double currentHeading) {
-        return  (position.distanceTo(points[points.size()-1]) + 12*fabs(position.headingTo(currentHeading, points[points.size()-1])) > threshold);
+        return  (position.distanceTo(points[points.size()-1]) + 12*fabs(position.headingTo(currentHeading, points[points.size()-1])) < threshold);
     }
 };

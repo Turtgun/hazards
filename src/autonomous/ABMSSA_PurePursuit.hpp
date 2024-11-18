@@ -129,13 +129,24 @@ class ABMSSA_PurePursuit {
                 if (headingError > M_PI) headingError -= 2 * M_PI;
                 else if (headingError < -M_PI) headingError += 2 * M_PI;      
 
-                double turningRadius = lookaheadDistance/(2.0 * sin(fabs(headingError)));
+                double curvature = (fabs(headingError) > 0.01) ? 2.0 * sin(headingError) / lookaheadDistance : 0.0;
+                
+                // Calculate wheel velocities in inches per second
+                double baseVelocity = maxVel * 0.5 * inchesPerTick * (unitsToRevolution / 60.0);  // Convert RPM to inches/sec
+                double leftVelocity = baseVelocity * (2.0 - curvature * trackwidth) / 2.0;   // inches/sec
+                double rightVelocity = baseVelocity * (2.0 + curvature * trackwidth) / 2.0;  // inches/sec
 
-                double leftDist = ((turningRadius - (trackwidth/2.0)) * headingError)/inchesPerTick;
-                double rightDist = ((turningRadius + (trackwidth/2.0)) * headingError)/inchesPerTick;
+                // Convert inches/sec to RPM for motor velocity
+                double leftRPM = (leftVelocity * 60.0) / (wheelDiameter * M_PI);
+                double rightRPM = (rightVelocity * 60.0) / (wheelDiameter * M_PI);
 
-                dt->left_g.move_relative(leftDist, maxVel);   
-                dt->left_g.move_relative(rightDist, maxVel);        
+                // Convert velocities to tick movement
+                double deltaTime = 0.02;  // 20ms loop time
+                double leftDist = (leftVelocity * deltaTime) / inchesPerTick;
+                double rightDist = (rightVelocity * deltaTime) / inchesPerTick;
+
+                dt->left_g.move_relative(leftDist, fabs(leftRPM));   
+                dt->left_g.move_relative(rightDist, fabs(rightRPM));        
 
                 path.checkIfNearEnd(currentPosition, currentHeading);
 
