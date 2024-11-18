@@ -1,5 +1,6 @@
 #pragma once
 
+#include "pros/motors.h"
 #include <cmath>
 namespace Constants {
     static constexpr unsigned char fl_p = 10; // Port of Front Left motor
@@ -22,22 +23,28 @@ namespace Constants {
     
     static constexpr float trackwidth = 4.6f; // The distance between both the left and an right motors
 
-    static const double pi = 3.14159265358979323846; // pi
-    static const double radToDeg = 180/pi;
+    static const double radToDeg = 180/M_PI;
     static constexpr float wheelDiameter = 3.25f; // Diameter of drive wheels
 
     /*
-    1800 ticks/rev with 36:1 gears (BLUE)
+    1800 ticks/rev with 36:1 gears (RED)
     900 ticks/rev with 18:1 gears (GREEN)
-    300 ticks/rev with 6:1 gears (RED)
+    300 ticks/rev with 6:1 gears (BLUE)
     */
-
     static constexpr double unitsToRevolution = 642.8571429; // Motor units per revolution for drive wheels (900 * 5/7)
-    static const double inchesPerTick = wheelDiameter*pi/unitsToRevolution; // The inches per tick for the drive encoders
+    static const double inchesPerTick = wheelDiameter*M_PI/unitsToRevolution; // The inches per tick for the drive encoders
+
+    /*
+    36 gearset for 36:1 gears (RED)
+    18 gearset for 18:1 gears (GREEN)
+    06 gearset for 6:1 gears (BLUE)
+    */
+    static constexpr pros::motor_gearset_e driveGearing = pros::E_MOTOR_GEARSET_18;
+    static const int maxVel = (driveGearing+1 > 2) ? 600 : (driveGearing+1)*100;
 
     static inline double headingRestrict(double heading) {
-        if (heading <= 0) heading += pi*2;
-        heading = fmod(std::abs(heading),pi*2);
+        if (heading <= 0) heading += M_PI*2;
+        heading = fmod(std::abs(heading),M_PI*2);
         return heading;
     }
 };

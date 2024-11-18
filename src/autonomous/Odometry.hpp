@@ -23,7 +23,7 @@ class Odometry {
 
 	public:
 		Vector2 pos = {0,0};
-		double heading = pi/2;
+		double heading = M_PI_2;
 		double leftEncoder, rightEncoder;
 
 		void odomTick(){

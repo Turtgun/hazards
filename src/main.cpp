@@ -5,7 +5,6 @@
 #include "liblvgl/core/lv_event.h"
 #include "systems/DriveTrain.hpp"
 
-#include "autonomous/Odometry.hpp"
 #include <cstdint>
 
 using namespace pros;
@@ -31,28 +30,28 @@ static void event_cb(lv_event_t* e) {
 			arcade = !arcade;
 			if (arcade) {
 				dt.teleMove = [=]{dt.arcadeDrive(lY,rX);};
-				lv_label_set_text(lv_obj_get_child(btn, NULL), "Arcade Drive");
+				lv_label_set_text(lv_obj_get_child(btn, 0), "Arcade Drive");
 				} else {
 				dt.teleMove = [=]{dt.tankDrive(lY,rY);};
-				lv_label_set_text(lv_obj_get_child(btn, NULL), "Tank Drive");
+				lv_label_set_text(lv_obj_get_child(btn, 0), "Tank Drive");
 			}
 			btnSetToggled(btn, arcade);
 			break;
 		case 1:
 			skills_auton = !skills_auton;
 			if (skills_auton) {
-				lv_label_set_text(lv_obj_get_child(btn, NULL), "Skills Auton");
+				lv_label_set_text(lv_obj_get_child(btn, 0), "Skills Auton");
 			} else {
-				lv_label_set_text(lv_obj_get_child(btn, NULL), "Match Auton");
+				lv_label_set_text(lv_obj_get_child(btn, 0), "Match Auton");
 			}
 			btnSetToggled(btn, skills_auton);
 			break;
 		case 2:
 			right_auton = !right_auton;
 			if (right_auton) {
-				lv_label_set_text(lv_obj_get_child(btn, NULL), "Right Auton");
+				lv_label_set_text(lv_obj_get_child(btn, 0), "Right Auton");
 			} else {
-				lv_label_set_text(lv_obj_get_child(btn, NULL), "Left Auton");
+				lv_label_set_text(lv_obj_get_child(btn, 0), "Left Auton");
 			}
 			btnSetToggled(btn, right_auton);
 			break;
@@ -68,9 +67,9 @@ static void event_cb(lv_event_t* e) {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	lv_obj_t* odometryInfo = createLabel(lv_scr_act(), DISP_CENTER, 300, 40, "Odom Info");
+	//lv_obj_t* odometryInfo = createLabel(lv_scr_act(), DISP_CENTER, 300, 40, "Odom Info");
 	//Odometry odom = Odometry(&dt, &odometryInfo);
-
+/*
 	dt.teleMove = [=]{dt.tankDrive(lY,rY);};
 	lv_obj_t* driveBtn = createBtn(lv_scr_act(), DISP_CENTER, 300, 20, "Tank Drive", LV_COLOR_MAKE(62, 180, 137), LV_COLOR_MAKE(153, 50, 204));
 	lv_obj_add_event_cb(driveBtn, event_cb, LV_EVENT_CLICKED, reinterpret_cast<void*>(static_cast<intptr_t>(0)));
@@ -83,6 +82,7 @@ void initialize() {
 
 	lv_obj_t* pickleT = createLabel(lv_scr_act(), DISP_CENTER, 300, 100,
 		"Current pickle high scores (5 min)\nEsteban: 11\nJayleen: 10\nJI: 9");
+*/
 }
 
 /**

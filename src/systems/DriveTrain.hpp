@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Constants.hpp"
+#include "pros/motors.h"
 #include "pros/motors.hpp"
 #include "pros/motor_group.hpp"
 
@@ -26,6 +27,9 @@ struct DriveTrain {
 
         left_g.set_encoder_units(E_MOTOR_ENCODER_COUNTS);
         right_g.set_encoder_units(E_MOTOR_ENCODER_COUNTS);
+
+        left_g.set_gearing_all(driveGearing);
+        right_g.set_gearing_all(driveGearing);
 
         left_g.tare_position();
         right_g.tare_position();
