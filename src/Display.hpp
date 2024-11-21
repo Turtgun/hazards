@@ -23,71 +23,66 @@ namespace Display {
         return img;
     }
 
-    static inline lv_obj_t* createLabel(lv_obj_t* parent, disp_obj_align align, lv_coord_t width, lv_coord_t height, const char* title,
-                    lv_color_t bgCol = lv_color_black(), lv_opa_t opa = LV_OPA_0, lv_color_t textColor = lv_color_white())
-    {
-        lv_obj_t* label =  lv_label_create(parent);
-        lv_obj_set_pos(label, lv_obj_get_x(lv_obj_get_child(parent, -1)) + 40, (align+1)*100);
-        lv_obj_set_size(label, width, height);
-        lv_label_set_text(label,title);
-        lv_obj_set_align(label, LV_ALIGN_CENTER);
+static inline lv_obj_t* createLabel(lv_obj_t* parent, lv_align_t align, lv_coord_t yPos, const char* text, lv_color_t textColor = lv_color_white())
+{
+    // Create label
+    lv_obj_t* label = lv_label_create(parent);
+    lv_label_set_text(label, text);
 
-        static lv_style_t labelSty;
-        lv_style_init(&labelSty);
+    // Align label based on provided alignment
+    lv_obj_set_pos(label, (align + 1) * 50, yPos);
 
-        lv_style_set_bg_color(&labelSty, bgCol);
-        lv_style_set_opa(&labelSty, opa);
-        lv_style_set_text_color(&labelSty, textColor);
+    // Initialize and configure label style
+    static lv_style_t labelStyle;
+    lv_style_init(&labelStyle);
+    lv_style_set_text_color(&labelStyle, textColor);
 
-        lv_obj_add_style(label, &labelSty, 0);
+    // Apply style to label
+    lv_obj_add_style(label, &labelStyle, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-        return label;
-    }
+    return label;
+}
 
-    static inline lv_obj_t* createBtn(lv_obj_t* parent, disp_obj_align align, lv_coord_t width, lv_coord_t height, const char* title, 
-                    lv_color_t rel, lv_color_t tglRel, lv_color_t textColor = lv_color_white())
-    {
-        lv_obj_t* btn = lv_btn_create(parent);
-        lv_obj_set_pos(btn, lv_obj_get_x(lv_obj_get_child(parent, -1)) + 40, (align+1)*100);
-        lv_obj_set_size(btn, width, height);
+static inline lv_obj_t* createBtn(lv_obj_t* parent, lv_align_t align, lv_coord_t yPos, lv_coord_t width, lv_coord_t height, const char* title,
+                                  lv_color_t rel, lv_color_t tglRel, lv_color_t textColor = lv_color_white())
+{
+    lv_obj_t* btn = lv_btn_create(parent);
+    lv_obj_set_pos(btn, (align + 1) * 50, yPos);
+    lv_obj_set_size(btn, width, height);
 
-        lv_obj_t* label = lv_label_create(btn);
-        lv_label_set_text(label, title);
-        lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_t* label = lv_label_create(btn);
+    lv_label_set_text(label, title);
+    lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
 
-        lv_style_t* btnStyle = new lv_style_t[4];
+    // Initialize styles
+    static lv_style_t btnStyleDefault, btnStylePressed, btnStyleTglRel, btnStyleTglPr;
+    lv_style_init(&btnStyleDefault);
+    lv_style_init(&btnStylePressed);
+    lv_style_init(&btnStyleTglRel);
+    lv_style_init(&btnStyleTglPr);
 
-        lv_color_t pr = LV_COLOR_MAKE((uint8_t)(rel.ch.red+10), (uint8_t)(rel.ch.green+10), (uint8_t)(rel.ch.blue+10));
-        lv_color_t tglPr = LV_COLOR_MAKE((uint8_t)(tglRel.ch.red+10), (uint8_t)(tglRel.ch.green+10), (uint8_t)(tglRel.ch.blue+10));
+    // Configure styles
+    lv_style_set_bg_color(&btnStyleDefault, rel);
+    lv_style_set_bg_color(&btnStylePressed, lv_color_darken(rel, 50));
+    lv_style_set_bg_color(&btnStyleTglRel, tglRel);
+    lv_style_set_bg_color(&btnStyleTglPr, lv_color_darken(tglRel, 50));
 
-        lv_style_set_bg_color(&btnStyle[0], rel);
-        lv_style_set_bg_grad_color(&btnStyle[0], rel);
-        lv_style_set_text_color(&btnStyle[0], textColor);
+    lv_style_set_text_color(&btnStyleDefault, textColor);
+    lv_style_set_text_color(&btnStylePressed, textColor);
+    lv_style_set_text_color(&btnStyleTglRel, textColor);
+    lv_style_set_text_color(&btnStyleTglPr, textColor);
 
-        lv_style_set_bg_color(&btnStyle[1], pr);
-        lv_style_set_bg_grad_color(&btnStyle[1], pr);
-        lv_style_set_text_color(&btnStyle[1], textColor);
+    // Apply styles
+    lv_obj_add_style(btn, &btnStyleDefault, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_add_style(btn, &btnStylePressed, LV_PART_MAIN | LV_STATE_PRESSED);
+    lv_obj_add_style(btn, &btnStyleTglRel, LV_PART_MAIN | LV_STATE_CHECKED);
+    lv_obj_add_style(btn, &btnStyleTglPr, LV_PART_MAIN | (LV_STATE_CHECKED | LV_STATE_PRESSED));
 
+    lv_obj_add_flag(btn, LV_OBJ_FLAG_CHECKABLE);
 
-        lv_style_set_bg_color(&btnStyle[2], tglRel);
-        lv_style_set_bg_grad_color(&btnStyle[2], tglRel);
-        lv_style_set_text_color(&btnStyle[2], textColor);
+    return btn;
+}
 
-
-        lv_style_set_bg_color(&btnStyle[3], tglPr);
-        lv_style_set_bg_grad_color(&btnStyle[3], tglPr);
-        lv_style_set_text_color(&btnStyle[3], textColor);
-
-        lv_obj_add_style(btn, &btnStyle[0], 0);
-        lv_obj_add_style(btn, &btnStyle[1], 1);
-        lv_obj_add_style(btn, &btnStyle[2], 2);
-        lv_obj_add_style(btn, &btnStyle[3], 3);
-
-
-        lv_obj_add_flag(btn, LV_OBJ_FLAG_CHECKABLE);
-
-        return btn;
-    }
     static inline void btnSetToggled(lv_obj_t* btn, bool toggled)
     {
         if(toggled != (lv_obj_get_state(btn) >= 2)) lv_obj_add_state(btn, LV_STATE_CHECKED);

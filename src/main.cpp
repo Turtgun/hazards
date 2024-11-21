@@ -2,6 +2,7 @@
 
 #include "Display.hpp"
 
+#include "autonomous/Odometry.hpp"
 #include "liblvgl/core/lv_event.h"
 #include "systems/DriveTrain.hpp"
 
@@ -13,8 +14,11 @@ using namespace Display;
 Controller master(E_CONTROLLER_MASTER);
 
 DriveTrain dt = DriveTrain();
+
+
 LV_IMG_DECLARE(normal);
 lv_obj_t* bgImg = lv_img_disp(&normal);
+
 
 char lY,rY,rX = 0;
 
@@ -67,22 +71,23 @@ static void event_cb(lv_event_t* e) {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	//lv_obj_t* odometryInfo = createLabel(lv_scr_act(), DISP_CENTER, 300, 40, "Odom Info");
-	//Odometry odom = Odometry(&dt, &odometryInfo);
-/*
-	dt.teleMove = [=]{dt.tankDrive(lY,rY);};
-	lv_obj_t* driveBtn = createBtn(lv_scr_act(), DISP_CENTER, 300, 20, "Tank Drive", LV_COLOR_MAKE(62, 180, 137), LV_COLOR_MAKE(153, 50, 204));
+	lv_obj_t* odometryInfo = createLabel(lv_scr_act(), DISP_CENTER, 20, "Odom Info");
+
+	lv_obj_t* driveBtn = createBtn(lv_scr_act(), DISP_CENTER, 80, 300, 20, "Tank Drive", LV_COLOR_MAKE(62, 180, 137), LV_COLOR_MAKE(153, 50, 204));
 	lv_obj_add_event_cb(driveBtn, event_cb, LV_EVENT_CLICKED, reinterpret_cast<void*>(static_cast<intptr_t>(0)));
 
-	lv_obj_t* autonTypeBtn = createBtn(lv_scr_act(), DISP_CENTER, 300, 20, "Match Auton", LV_COLOR_MAKE(62, 180, 137), LV_COLOR_MAKE(153, 50, 204));
+	lv_obj_t* autonTypeBtn = createBtn(lv_scr_act(), DISP_CENTER, 120, 300, 20, "Match Auton", LV_COLOR_MAKE(62, 180, 137), LV_COLOR_MAKE(153, 50, 204));
 	lv_obj_add_event_cb(autonTypeBtn, event_cb, LV_EVENT_CLICKED, reinterpret_cast<void*>(static_cast<intptr_t>(1)));
 
-	lv_obj_t* autonSideBtn = createBtn(lv_scr_act(), Display::DISP_CENTER, 300, 20, "Match Left", LV_COLOR_MAKE(62, 180, 137), LV_COLOR_MAKE(153, 50, 204));
+	lv_obj_t* autonSideBtn = createBtn(lv_scr_act(), Display::DISP_CENTER, 160,  300, 20, "Match Left", LV_COLOR_MAKE(62, 180, 137), LV_COLOR_MAKE(153, 50, 204));
 	lv_obj_add_event_cb(autonSideBtn, event_cb, LV_EVENT_CLICKED, reinterpret_cast<void*>(static_cast<intptr_t>(2)));
 
-	lv_obj_t* pickleT = createLabel(lv_scr_act(), DISP_CENTER, 300, 100,
+	dt.teleMove = [=]{dt.tankDrive(lY,rY);};
+	
+	lv_obj_t* pickleT = createLabel(lv_scr_act(), DISP_CENTER, 220,
 		"Current pickle high scores (5 min)\nEsteban: 11\nJayleen: 10\nJI: 9");
-*/
+	
+	Odometry odom = Odometry(&dt, &odometryInfo);
 }
 
 /**
